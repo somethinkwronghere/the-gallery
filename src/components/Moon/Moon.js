@@ -6,7 +6,7 @@ import { draco } from 'drei';
 const Moon = () => {
 
 
-    const { scene } = useLoader(GLTFLoader, "assets/3D/Moon/scene.gltf", draco("https://www.gstatic.com/draco/versioned/decoders/1.4.0/"));
+    const { scene } = useLoader(GLTFLoader, process.env.PUBLIC_URL + "/assets/3D/Moon/scene.gltf", draco("https://www.gstatic.com/draco/versioned/decoders/1.4.0/"));
 
     console.log(scene);
     scene.traverse( function ( child ) {

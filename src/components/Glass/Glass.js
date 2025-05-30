@@ -11,7 +11,11 @@ const Glass = ({
     rotation,
     url
  }) => {
-    const { scene } = useLoader(GLTFLoader, url, draco("https://www.gstatic.com/draco/versioned/decoders/1.4.0/"));
+    const { scene } = useLoader(
+        GLTFLoader,
+        url.startsWith("/") ? process.env.PUBLIC_URL + url : process.env.PUBLIC_URL + "/" + url,
+        draco("https://www.gstatic.com/draco/versioned/decoders/1.4.0/")
+    );
     const newMaterial = new THREE.MeshPhysicalMaterial({
         color: "skyblue"
       });

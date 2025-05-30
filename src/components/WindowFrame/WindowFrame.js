@@ -14,11 +14,15 @@ const WindowFrame = ({
 
 }) => {
     let newMaterial, map;
-    const { scene } = useLoader(GLTFLoader, modelUrl, draco("https://www.gstatic.com/draco/versioned/decoders/1.4.0/"));
+    const { scene } = useLoader(
+        GLTFLoader,
+        modelUrl.startsWith("/") ? process.env.PUBLIC_URL + modelUrl : process.env.PUBLIC_URL + "/" + modelUrl,
+        draco("https://www.gstatic.com/draco/versioned/decoders/1.4.0/")
+    );
 
     newMaterial = new THREE.MeshPhysicalMaterial();
     
-    map = useMemo(() => new THREE.TextureLoader().load(mapUrl), [mapUrl]);
+    map = useMemo(() => new THREE.TextureLoader().load(mapUrl.startsWith("/") ? process.env.PUBLIC_URL + mapUrl : process.env.PUBLIC_URL + "/" + mapUrl), [mapUrl]);
     map.flipY=false;
 
     scene.traverse( function ( child ) {

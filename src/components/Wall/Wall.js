@@ -16,7 +16,11 @@ const Wall = ({
     let texture, normal;
     const size = 20;
 
-    const { scene } = useLoader(GLTFLoader, modelUrl, draco("https://www.gstatic.com/draco/versioned/decoders/1.4.0/"));
+    const { scene } = useLoader(
+        GLTFLoader,
+        modelUrl.startsWith("/") ? process.env.PUBLIC_URL + modelUrl : process.env.PUBLIC_URL + "/" + modelUrl,
+        draco("https://www.gstatic.com/draco/versioned/decoders/1.4.0/")
+    );
 
     const [refFront] = useBox(() => ({ 
         type: "static", 
@@ -44,12 +48,12 @@ const Wall = ({
         position: [0, 30, 0],
     }));
 
-    texture = useMemo(() => new THREE.TextureLoader().load(mapUrl), [mapUrl]);
+    texture = useMemo(() => new THREE.TextureLoader().load(mapUrl.startsWith("/") ? process.env.PUBLIC_URL + mapUrl : process.env.PUBLIC_URL + "/" + mapUrl), [mapUrl]);
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(size, size);
 
-    normal = useMemo(() => new THREE.TextureLoader().load(normalMapUrl), [normalMapUrl]);
+    normal = useMemo(() => new THREE.TextureLoader().load(normalMapUrl.startsWith("/") ? process.env.PUBLIC_URL + normalMapUrl : process.env.PUBLIC_URL + "/" + normalMapUrl), [normalMapUrl]);
     normal.wrapS = THREE.RepeatWrapping;
     normal.wrapT = THREE.RepeatWrapping;
     normal.repeat.set(size, size);

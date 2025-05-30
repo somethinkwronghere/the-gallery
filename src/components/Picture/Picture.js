@@ -9,10 +9,10 @@ const Picture = ({
   position,  
   rotation,
   metalness,
-  roughness
-
+  roughness,
+  info = ""
 }) => {
-    const { scene } = useLoader(GLTFLoader, url, draco("https://www.gstatic.com/draco/versioned/decoders/1.4.0/"));
+    const { scene } = useLoader(GLTFLoader, url.startsWith("/") ? process.env.PUBLIC_URL + url : process.env.PUBLIC_URL + "/" + url, draco("https://www.gstatic.com/draco/versioned/decoders/1.4.0/"));
     scene.traverse( function ( child ) {
       if ( child.isMesh ) {                                     
           child.castShadow = true;
@@ -20,6 +20,8 @@ const Picture = ({
           child.material.toneMapped = false;
           child.material.metalness = metalness;
           child.material.roughness =roughness;
+          // Info propunu mesh'e ekle
+          child.userData.info = info;
       }
   });
   
