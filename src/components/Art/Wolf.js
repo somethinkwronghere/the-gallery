@@ -22,7 +22,7 @@ const Wolf = () => {
 
     return (
         <primitive
-            scale={[3, 3, 3]} // Büyük boyut
+            scale={[1.95, 1.95, 1.95]} // %35 küçültülmüş boyut
             position={[0, 3, 12]} // Yerden tablolar kadar yüksekte ve tam ortada
             rotation={[0, Math.PI, 0]}
             object={scene}
