@@ -62,7 +62,7 @@ const Art = () => {
             rotation={[0, 0, 0]}
             metalness={0.9}
             roughness={0.9}
-            info="Yaşlı Adam Portresi: 2018, Tuval üzerine karışık teknik. Hayat tecrübesi ve yaşanmışlık izleri, portredeki detaylarda öne çıkar. Sanatçı, yaşlı adamın yüzündeki çizgilerle zamanın izlerini vurgulamıştır. Boyut: 90x120 cm."
+            info="Kasımpatılı Natürmort: 1929, Sunta üzerine yağlı boya. Ali Sami Yetik'in bu eserinde, lacivert vazo ve cam kaseye yerleştirilmiş pembe, sarı, beyaz çiçekler ile dökülen yapraklar canlı renklerle ve izlenimci fırça darbeleriyle resmedilmiştir. Arka plan düz fon, imza sol üstte. Boyut: 123x97 cm (çerçeveli). Sergilendiği yer: Ankara RHM."
         />
          <Display position={[-20, 5, 25]} size={[1, 18, 11]} />
 
