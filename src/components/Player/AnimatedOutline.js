@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import React, { useRef, useEffect } from 'react';
-import { useFrame } from 'react-three-fiber';
+import { useFrame } from '@react-three/fiber';
 
 // Simple animated RGB outline using THREE.LineSegments
 export function AnimatedOutline({ mesh, visible = true, thickness = 0.04 }) {

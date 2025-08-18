@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"
-import ReactDOM from 'react-dom';
+import React, { useState } from "react"
+import { createRoot } from 'react-dom/client';
 import './style/css/index.css';
 import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
@@ -8,39 +8,49 @@ import Loading from './components/Loading/Loading';
 const Overlay = () => {
   const [ready, setReady] = useState(false)
 
-  useEffect(() => {
-    const handleLockchange = (e) => {
-      if(document.pointerLockElement === null) {
-          setReady(false)        
-      } else {
-          setReady(true)
-      }
-    }
-    
-    document.addEventListener("pointerlockchange", handleLockchange);
-    return () => {
-      document.removeEventListener("pointerlockchange", handleLockchange)
-    }
-  })  
+  // Overlay readiness is controlled explicitly via click now
 
   return (
     <>
       <App />
-      <div className={ready ? "" : "overlay"}>
-        <div className={"start"}>Digistory'ye Başla</div>
-        <img className={ready ? "" : "controlsL"} src="./assets/Images/ControlsL.png" alt="Hareket: WASD\nZıpla: SPACE\nKoş: SHIFT"></img>
-        <img className={ready ? "" : "controlsR"} src="./assets/Images/ControlsR.png" alt="Bak: MOUSE"></img>
-        <img className={ready ? "" : "controlsTR"} src="./assets/Images/ControlsTR.png" alt="Performans: P\nGece Modu: N"></img>
-      </div>
-      <div className="dot" 
-      style={{ pointerEvents: ready ? "none" : "all" }} 
-      />
+      {!ready && (
+        <>
+          <div className="overlay"
+            onClick={() => {
+              setReady(true);
+              const canvas = document.querySelector('canvas');
+              if (canvas && !document.pointerLockElement) {
+                canvas.requestPointerLock();
+              }
+            }}
+          >
+            <div className={"start"}>Digistory'ye Başla</div>
+            <img className={"controlsL"} src="./assets/Images/ControlsL.png" alt="Hareket: WASD\nZıpla: SPACE\nKoş: SHIFT"></img>
+            <img className={"controlsR"} src="./assets/Images/ControlsR.png" alt="Bak: MOUSE"></img>
+            <img className={"controlsTR"} src="./assets/Images/ControlsTR.png" alt="Performans: P\nGece Modu: N"></img>
+          </div>
+          <div className="dot" 
+            onClick={() => {
+              setReady(true);
+              const canvas = document.querySelector('canvas');
+              if (canvas && !document.pointerLockElement) {
+                canvas.requestPointerLock();
+              }
+            }}
+          />
+        </>
+      )}
+      {ready && (
+        <div className="dot" style={{ pointerEvents: 'none' }} />
+      )}
       <Loading />
       </>
   )
 }
 
-ReactDOM.render(<Overlay />, document.getElementById("root"))
+const container = document.getElementById("root");
+const root = createRoot(container);
+root.render(<Overlay />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

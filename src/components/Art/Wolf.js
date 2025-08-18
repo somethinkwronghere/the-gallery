@@ -1,34 +1,43 @@
 import React from 'react';
-import { useLoader } from 'react-three-fiber';
+import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { draco } from 'drei';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
-const Wolf = () => {
-    // Kurt modelinin doğru yolu
+const Wolf = ({ info = "", position = [0, 0, 0], rotation = [0, Math.PI / 2, 0], scale = [0.5, 0.5, 0.5] }) => {
     const { scene } = useLoader(
-        GLTFLoader,
-        process.env.PUBLIC_URL + '/assets/3D/kurt/source/Werewolf_Warrior.glb',
-        draco('https://www.gstatic.com/draco/versioned/decoders/1.4.0/')
+      GLTFLoader,
+      process.env.PUBLIC_URL + "/assets/3D/kurt/source/Werewolf_Warrior.glb",
+      (loader) => {
+        const draco = new DRACOLoader();
+        draco.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.0/');
+        loader.setDRACOLoader(draco);
+      }
     );
-
-    scene.traverse(function (child) {
-        if (child.isMesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-            child.material.metalness = 0.2;
-            child.material.roughness = 0.8;
-        }
-    });
-
+    
+    // Add null check to prevent errors
+    if (!scene) {
+        return null;
+    }
+    
+    scene.traverse( function ( child ) {
+      if ( child.isMesh ) {                                     
+          child.castShadow = true;
+          child.receiveShadow = true;
+          child.material.toneMapped = false;
+          // Info propunu mesh'e ekle
+          child.userData.info = info;
+      }
+  });
+  
     return (
-        <primitive
-            scale={[1.95, 1.95, 1.95]} // %35 küçültülmüş boyut
-            position={[0, 3, 12]} // Yerden tablolar kadar yüksekte ve tam ortada
-            rotation={[0, Math.PI, 0]}
-            object={scene}
+         <primitive 
+            scale={scale}
+            position={position}
+            rotation={rotation}
+            object={scene}                    
             dispose={null}
-        />
-    );
-};
+          />
+    )
+  }
 
-export default Wolf;
+  export default Wolf;

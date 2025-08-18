@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { usePlane } from "use-cannon";
+import { usePlane } from "@react-three/cannon";
 import * as THREE from 'three';
-import { Reflector } from '@react-three/drei';
+import { MeshReflectorMaterial } from '@react-three/drei';
 
 const Ground = () => {
     let marbleAlphaMap, marbleMap, marbleNormalMap, grassMap;
@@ -35,22 +35,28 @@ const Ground = () => {
     return (
         <>
             <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.3, 22]} >
-                <planeBufferGeometry attach="geometry" args={[1000, 1000]} />
-                <meshLambertMaterial attach="material">
+                <planeGeometry args={[1000, 1000]} />
+                <meshLambertMaterial>
                     <primitive attach="map" object={grassMap} />
                 </meshLambertMaterial>
             </mesh>
             
-            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 22]} >
-                <Reflector>
-                    <planeBufferGeometry attach="geometry" args={[70, 75]}  />
-                </Reflector>
+            <mesh position={[0, -0.1, 22]} rotation={[-Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[70, 75]} />
+                <MeshReflectorMaterial
+                    mirror={0.25}
+                    mixBlur={1}
+                    mixStrength={0.5}
+                    resolution={512}
+                    color="#888"
+                    metalness={0.4}
+                    roughness={1}
+                />
             </mesh>
 
             <mesh ref={ref} receiveShadow>
-                <planeBufferGeometry attach="geometry" args={[70, 75]} />
+                <planeGeometry args={[70, 75]} />
                 <meshPhysicalMaterial 
-                    attach="material"
                     reflectivity={0}
                     clearcoat={1}
                     transparent

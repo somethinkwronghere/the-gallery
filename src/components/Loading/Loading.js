@@ -1,33 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import * as THREE from 'three'
-import { useTransition, a } from 'react-spring'
 
 const Loading = () => {
     const [finished, set] = useState(false)
     const [width, setWidth] = useState(0)
+    const [opacity, setOpacity] = useState(1)
   
     useEffect(() => {
-      THREE.DefaultLoadingManager.onLoad = () => set(true)
+      THREE.DefaultLoadingManager.onLoad = () => {
+        set(true)
+        // Fade out effect
+        setTimeout(() => setOpacity(0), 500)
+      }
       THREE.DefaultLoadingManager.onProgress = (url, itemsLoaded, itemsTotal) =>
         setWidth((itemsLoaded / itemsTotal) * 200)
     }, [])
   
-    const props = useTransition(finished, null, {
-      from: { opacity: 1, width: 0 },
-      leave: { opacity: 0 },
-      update: { width },
-    })
+    if (finished && opacity === 0) {
+      return null
+    }
   
-    return props.map(
-      ({ item: finished, key, props: { opacity, width } }) =>
-        !finished && (
-          <a.div className="loading" key={key} style={{ opacity }}>
-           <h1 className="welcome">Digistory</h1>   
-            <div className="loading-bar-container">                
-              <a.div className="loading-bar" style={{ width }} />
-            </div>
-          </a.div>
-        ),
+    return (
+      <div 
+        className="loading" 
+        style={{ 
+          opacity,
+          transition: 'opacity 0.5s ease-out'
+        }}
+      >
+        <h1 className="welcome">Digistory</h1>   
+        <div className="loading-bar-container">                
+          <div 
+            className="loading-bar" 
+            style={{ 
+              width: `${width}px`,
+              transition: 'width 0.3s ease-out'
+            }} 
+          />
+        </div>
+      </div>
     )
   }
 

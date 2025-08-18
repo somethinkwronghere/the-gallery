@@ -76,8 +76,13 @@ const Art = () => {
             roughness={0.8}
             info="Kız Portresi: 2023, Dijital çalışma. Renkli ve enerjik bir kompozisyonla gençliğin dinamizmi ve umudu yansıtılmıştır. Dijital fırça teknikleriyle oluşturulmuş, canlı renkler ve modern bir tarzda sunulmuştur. Boyut: 100x100 cm."
         />
-        {/* Kurt Heykeli - Galeri Ortası */}
-        <Wolf />
+        {/* Kurt Heykeli - Galeri Ortası (büyütülmüş ve öne bakacak şekilde) */}
+        <Wolf 
+          info="Werewolf Warrior: Fantastik heykel. Orta salon sergisi. Malzeme: Dijital/3B model."
+          scale={[1.2, 1.2, 1.2]}
+          position={[0, 0, 8]}
+          rotation={[0, 0, 0]}
+        />
         {/* Dünya Hologramı - Kurtun üstünde, tam ortada */}
         <Globe />
     </>

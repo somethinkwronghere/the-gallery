@@ -1,29 +1,31 @@
 import React, { useEffect, useRef } from 'react';
-import { extend, useThree } from 'react-three-fiber';
+import { useThree } from '@react-three/fiber';
 import { PointerLockControls as PointerLockControlsExt } from 'three/examples/jsm/controls/PointerLockControls';
-
-extend({ PointerLockControlsExt })
 
 const PointerLockControls = (props) => {
     const { camera, gl } = useThree()
     const controls = useRef()
+    const pointerSpeed = props.pointerSpeed ?? 0.2
 
     useEffect(() => {
+        const canvasEl = gl && gl.domElement ? gl.domElement : null;
+        if (!canvasEl) return;
         const handleClick = () => {
             if (controls.current) {
                 controls.current.lock();
             }
         };
-        document.addEventListener("click", handleClick);
+        canvasEl.addEventListener("click", handleClick);
         return () => {
-            document.removeEventListener("click", handleClick);
+            canvasEl.removeEventListener("click", handleClick);
         };
-    }, [])
+    }, [gl])
 
     return (
-        <pointerLockControlsExt
+        <primitive
+            object={new PointerLockControlsExt(camera, gl.domElement)}
             ref={controls}
-            args={[camera, gl.domElement]}
+            pointerSpeed={pointerSpeed}
             {...props}
         />
     )
