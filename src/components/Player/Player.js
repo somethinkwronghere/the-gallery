@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import React, { useEffect, useRef, useState } from 'react';
-import { useSphere } from 'use-cannon';
-import { useThree, useFrame } from 'react-three-fiber';
+import { useSphere } from '@react-three/cannon';
+import { useThree, useFrame } from '@react-three/fiber';
 import PointerLockControls from '../PointerLockControls/PointerLockControls'
 import usePlayerControls from '../usePlayerControls/usePlayerControls'
 import { Html } from '@react-three/drei';
@@ -19,9 +19,11 @@ const Player = (props) => {
   const [ref, api] = useSphere(() => ({ 
     mass: 1, 
     type: "Dynamic", 
-    position: [-11, 5, 33],
-    rotation: [0, 0, Math.PI / 2],
-    args: 5,
+    position: [0, 3, 22],
+    rotation: [0, 0, 0],
+    args: [1.2],
+    linearDamping: 0.05,
+    angularDamping: 0.5,
      ...props
   }));
 
@@ -33,7 +35,6 @@ const Player = (props) => {
   const closeTimeout = useRef();
 
   useEffect(() =>  {
-    //update reference everytime velocity changes
     api.velocity.subscribe(v => velocity.current = v)
   }, [api.velocity])
   
@@ -41,15 +42,34 @@ const Player = (props) => {
     if (!ref.current) return;
     camera.position.copy(ref.current.position)
 
-    const frontVector = new THREE.Vector3(0, 0, Number(backward) - Number(forward))
-    const sideVector = new THREE.Vector3(Number(left) - Number(right), 0, 0)
+    const frontVector = new THREE.Vector3(0, 0, (backward ? 1 : 0) - (forward ? 1 : 0))
+    const sideVector = new THREE.Vector3((right ? 1 : 0) - (left ? 1 : 0), 0, 0)
     const direction = new THREE.Vector3()
-    direction.subVectors(frontVector, sideVector).normalize().multiplyScalar(speed).applyEuler(camera.rotation)
+    direction.addVectors(frontVector, sideVector)
+      .normalize()
+      .multiplyScalar(speed)
+
+    // Apply only camera yaw to movement direction
+    const yawOnly = new THREE.Euler(0, camera.rotation.y, 0)
+    direction.applyEuler(yawOnly)
+
+    // Ground check against only meshes that receiveShadow (heuristic)
+    const downRay = new THREE.Raycaster(ref.current.position, new THREE.Vector3(0, -1, 0), 0, 1.6)
+    const intersectsDown = downRay.intersectObjects(scene.children, true)
+    const grounded = intersectsDown && intersectsDown.length > 0
+
+    // Apply velocity
     api.velocity.set(direction.x, velocity.current[1], direction.z)
-    if (jump && Math.abs(velocity.current[1].toFixed(2)) < 100) {
-      api.velocity.set(velocity.current[0], 10, velocity.current[2])
+
+    if (grounded && velocity.current[1] < 0) {
+      api.velocity.set(velocity.current[0], 0, velocity.current[2])
     }
-    // Raycast tam ortadaki noktadan ileriye
+
+    if (jump && grounded) {
+      api.velocity.set(velocity.current[0], 8, velocity.current[2])
+    }
+
+    // Raycast forward for info
     raycaster.current.setFromCamera({ x: 0, y: 0 }, camera);
     const intersects = raycaster.current.intersectObjects(scene.children, true);
     let foundInfo = "";
@@ -72,7 +92,6 @@ const Player = (props) => {
     const handleKeyDown = (e) => {
       if (e.code === "KeyE" && hoveredInfo) {
         setShowInfo((prev) => !prev);
-        // Timeout'u temizle
         if (closeTimeout.current) clearTimeout(closeTimeout.current);
       }
     };
@@ -80,24 +99,10 @@ const Player = (props) => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [hoveredInfo]);
 
-  // hoveredInfo değişirse ve info kutusu açıksa, bakmayı bırakınca 3 sn sonra kapat
-  useEffect(() => {
-    if (!showInfo) return;
-    if (hoveredInfo) {
-      if (closeTimeout.current) clearTimeout(closeTimeout.current);
-    } else {
-      closeTimeout.current = setTimeout(() => setShowInfo(false), 3000);
-    }
-    return () => {
-      if (closeTimeout.current) clearTimeout(closeTimeout.current);
-    };
-  }, [hoveredInfo, showInfo]);
-
   return (
     <>
       <PointerLockControls />
       <mesh ref={ref}></mesh>
-      {/* InfoBox yerine Html ile overlay göster */}
       {showInfo && hoveredInfo && (
         <Html position={infoPos} center style={{ pointerEvents: 'none' }}>
           <div style={{

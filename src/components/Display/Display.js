@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useBox } from "use-cannon";
+import { useBox } from "@react-three/cannon";
 import * as THREE from 'three';
 
 const Display = ({ position, size }) => {
@@ -24,7 +24,7 @@ const Display = ({ position, size }) => {
             receiveShadow
             castShadow
         >
-            <boxBufferGeometry attach="geometry" args={size} />
+            <boxGeometry attach="geometry" args={size} />
             <meshPhysicalMaterial 
                 attach="material" 
                 clearcoat={1}

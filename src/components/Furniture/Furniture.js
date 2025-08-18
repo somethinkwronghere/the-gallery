@@ -6,20 +6,16 @@ const Furniture = () => {
     return (
         <>
             <Bench 
-              url={"assets/3D/Bench/scene.gltf"}
               scale={[0.11, 0.11, 0.11]}
               position={[0, 0, 3]}
               rotation={[0, 0, 0]}
-              physicsSize={[10, 3, 1]}
-              physicsPosition={[0, 0, 3]}
+              info="Ana Galeri Bankı: Ahşap malzemeden yapılmış, galeri ziyaretçileri için dinlenme alanı."
             />
             <Bench
-              url={"assets/3D/SmallBench/scene.gltf"}
               scale={[0.09, 0.09, 0.09]}
               position={[0, 1.5, 21.5]}
               rotation={[0, 0, 0]}
-              physicsSize={[8, 3, 1]}
-              physicsPosition={[0, 0, 21.5]}             
+              info="Küçük Bank: Kompakt tasarım, küçük galeri alanları için uygun."
             />
         </>
     );

@@ -1,29 +1,35 @@
 import React from 'react';
-import { useLoader } from 'react-three-fiber';
+import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { draco } from 'drei';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
 const Moon = () => {
-
-
-    const { scene } = useLoader(GLTFLoader, process.env.PUBLIC_URL + "/assets/3D/Moon/scene.gltf", draco("https://www.gstatic.com/draco/versioned/decoders/1.4.0/"));
-
-    console.log(scene);
+    const { scene } = useLoader(
+      GLTFLoader,
+      process.env.PUBLIC_URL + "/assets/3D/Moon/scene.gltf",
+      (loader) => {
+        const draco = new DRACOLoader();
+        draco.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.0/');
+        loader.setDRACOLoader(draco);
+      }
+    );
     scene.traverse( function ( child ) {
-        if ( child.isMesh ) {                                     
-            child.material.fog = false;
-        }
-    });
-
+      if ( child.isMesh ) {                                     
+          child.castShadow = false;
+          child.receiveShadow = false;
+          child.material.toneMapped = false;
+          child.material.emissiveIntensity = 1;
+      }
+  });
+  
     return (
-        
-        <primitive 
-            scale={[6, 6, 6]} 
-            rotation={[Math.PI / 40, Math.PI / 3.5, Math.PI / 8]}
-            position={[80, 150, -200]}
+         <primitive 
+            scale={[2, 2, 2]} 
+            position={[0, 50, -50]}
+            rotation={[0, 0, 0]}
             object={scene}                    
             dispose={null}
-        />
-    );
-}
+          />
+    )
+  }
 export default Moon;

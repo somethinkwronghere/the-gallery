@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { useLoader } from 'react-three-fiber';
+import { useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 
 
@@ -9,7 +9,19 @@ const WindowGlass = ({ position }) => {
     const [model, setModel] = useState();
 
     newMaterial = new THREE.MeshPhysicalMaterial({
-        color: "skyblue"
+        color: "#8ec9ff",
+        transparent: true,
+        opacity: 0.12,
+        roughness: 0,
+        metalness: 0,
+        transmission: 0.95,
+        thickness: 0.25,
+        ior: 1.3,
+        reflectivity: 0.1,
+        clearcoat: 1,
+        clearcoatRoughness: 0.05,
+        side: THREE.DoubleSide,
+        depthWrite: false
       });
 
     useEffect(() => {
@@ -27,11 +39,6 @@ const WindowGlass = ({ position }) => {
                     shadows={model.scene.traverse( function ( child ) {
                         if ( child.isMesh ) {   
                             child.material = newMaterial;
-                            child.material.transparent = true;
-                            child.material.opacity = 0.3; 
-                            child.material.clearcoat = 1; 
-                            child.material.roughness = 0;
-                            child.material.metalness = 1;
                         }
                     })} 
                 >                   

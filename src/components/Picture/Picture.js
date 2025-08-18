@@ -1,7 +1,7 @@
 import React from 'react';
-import { useLoader } from 'react-three-fiber';
+import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { draco } from 'drei';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
 const Picture = ({
   url,
@@ -12,7 +12,21 @@ const Picture = ({
   roughness,
   info = ""
 }) => {
-    const { scene } = useLoader(GLTFLoader, url.startsWith("/") ? process.env.PUBLIC_URL + url : process.env.PUBLIC_URL + "/" + url, draco("https://www.gstatic.com/draco/versioned/decoders/1.4.0/"));
+    const { scene } = useLoader(
+      GLTFLoader,
+      url.startsWith("/") ? process.env.PUBLIC_URL + url : process.env.PUBLIC_URL + "/" + url,
+      (loader) => {
+        const draco = new DRACOLoader();
+        draco.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.0/');
+        loader.setDRACOLoader(draco);
+      }
+    );
+    
+    // Add null check to prevent errors
+    if (!scene) {
+        return null;
+    }
+    
     scene.traverse( function ( child ) {
       if ( child.isMesh ) {                                     
           child.castShadow = true;

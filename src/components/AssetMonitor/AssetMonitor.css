@@ -1,0 +1,368 @@
+.asset-monitor {
+  position: fixed;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  border-radius: 8px;
+  min-width: 300px;
+  max-width: 400px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.asset-monitor--top-left {
+  top: 20px;
+  left: 20px;
+}
+
+.asset-monitor--top-right {
+  top: 20px;
+  right: 20px;
+}
+
+.asset-monitor--bottom-left {
+  bottom: 20px;
+  left: 20px;
+}
+
+.asset-monitor--bottom-right {
+  bottom: 20px;
+  right: 20px;
+}
+
+.asset-monitor__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.asset-monitor__header:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.asset-monitor__header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.asset-monitor__toggle {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.asset-monitor__content {
+  padding: 16px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.asset-monitor__section {
+  margin-bottom: 20px;
+}
+
+.asset-monitor__section:last-child {
+  margin-bottom: 0;
+}
+
+.asset-monitor__section h4 {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  color: #00ff88;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.asset-monitor__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.stat__label {
+  color: #ccc;
+}
+
+.stat__value {
+  color: white;
+  font-weight: bold;
+}
+
+.asset-monitor__loading {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.loading-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.loading-item__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.loading-item__id {
+  font-size: 10px;
+  color: #ccc;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.loading-item__stage {
+  font-size: 10px;
+  color: #00ff88;
+  text-transform: uppercase;
+}
+
+.loading-item__progress {
+  position: relative;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.loading-item__progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #00ff88, #00ccff);
+  transition: width 0.3s ease;
+}
+
+.loading-item__percentage {
+  position: absolute;
+  right: 0;
+  top: -16px;
+  font-size: 10px;
+  color: white;
+}
+
+.asset-monitor__states {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.state-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.state-item--loading {
+  border-left: 3px solid #ffaa00;
+}
+
+.state-item--error {
+  border-left: 3px solid #ff4444;
+}
+
+.state-item--loaded {
+  border-left: 3px solid #00ff88;
+}
+
+.status-indicator {
+  font-size: 12px;
+}
+
+.status-indicator--loading {
+  animation: pulse 1.5s infinite;
+}
+
+.status-indicator--error {
+  color: #ff4444;
+}
+
+.status-indicator--loaded {
+  color: #00ff88;
+}
+
+.state-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.state-item__type {
+  font-size: 10px;
+  color: #00ccff;
+  text-transform: uppercase;
+}
+
+.state-item__size {
+  font-size: 10px;
+  color: #ccc;
+}
+
+.state-item__error {
+  font-size: 10px;
+  color: #ff4444;
+}
+
+.asset-monitor__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-button {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-button--danger {
+  background: #ff4444;
+  color: white;
+}
+
+.action-button--danger:hover {
+  background: #ff6666;
+}
+
+.action-button--warning {
+  background: #ffaa00;
+  color: white;
+}
+
+.action-button--warning:hover {
+  background: #ffcc33;
+}
+
+.action-button--info {
+  background: #3498db;
+  color: white;
+}
+
+.action-button--info:hover {
+  background: #2980b9;
+}
+
+/* Asset Types */
+.asset-monitor__types {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.type-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.type-stat__label {
+  font-size: 12px;
+  color: #bdc3c7;
+  text-transform: capitalize;
+}
+
+.type-stat__count {
+  font-size: 12px;
+  font-weight: bold;
+  color: #ecf0f1;
+}
+
+/* Performance Indicators */
+.asset-monitor__performance {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.perf-indicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.perf-indicator__label {
+  font-size: 12px;
+  color: #bdc3c7;
+}
+
+.perf-indicator__value {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.perf-indicator__value--good {
+  background-color: #27ae60;
+  color: white;
+}
+
+.perf-indicator__value--warning {
+  background-color: #f39c12;
+  color: white;
+}
+
+.perf-indicator__value--error {
+  background-color: #e74c3c;
+  color: white;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Scrollbar styling */
+.asset-monitor__content::-webkit-scrollbar,
+.asset-monitor__states::-webkit-scrollbar {
+  width: 4px;
+}
+
+.asset-monitor__content::-webkit-scrollbar-track,
+.asset-monitor__states::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.asset-monitor__content::-webkit-scrollbar-thumb,
+.asset-monitor__states::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.asset-monitor__content::-webkit-scrollbar-thumb:hover,
+.asset-monitor__states::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}

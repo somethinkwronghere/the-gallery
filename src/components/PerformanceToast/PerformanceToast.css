@@ -1,0 +1,94 @@
+.performance-toast {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  z-index: 1001;
+  backdrop-filter: blur(10px);
+  border-left: 4px solid;
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.performance-toast--warning {
+  border-left-color: #f59e0b;
+  background: rgba(120, 53, 15, 0.9);
+}
+
+.performance-toast--success {
+  border-left-color: #10b981;
+  background: rgba(6, 78, 59, 0.9);
+}
+
+.performance-toast--info {
+  border-left-color: #3b82f6;
+  background: rgba(30, 58, 138, 0.9);
+}
+
+.performance-toast__icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.performance-toast__message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.performance-toast__close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.performance-toast__close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .performance-toast {
+    top: 70px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+  
+  .performance-toast__icon {
+    font-size: 16px;
+  }
+}
