@@ -1,0 +1,296 @@
+/* Base styles for SimplePerformance component */
+.simple-performance {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  user-select: none;
+}
+
+/* Minimal mode styles */
+.simple-performance--minimal {
+  padding: 8px 12px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 140px;
+}
+
+.simple-performance--minimal .simple-performance__fps {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.simple-performance--minimal .simple-performance__fps-value {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.simple-performance--minimal .simple-performance__fps-label {
+  font-size: 10px;
+  color: #ccc;
+}
+
+.simple-performance--minimal .simple-performance__memory {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.simple-performance--minimal .simple-performance__memory-value {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.simple-performance--minimal .simple-performance__memory-label {
+  font-size: 9px;
+  color: #ccc;
+}
+
+.simple-performance--minimal .simple-performance__level {
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+/* Dashboard mode styles */
+.simple-performance--dashboard {
+  top: 20px;
+  right: 20px;
+  padding: 16px;
+  font-size: 12px;
+  min-width: 200px;
+  max-width: 250px;
+}
+
+.simple-performance__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.simple-performance__header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.simple-performance__status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.simple-performance__level-badge {
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: bold;
+  color: #000;
+}
+
+.simple-performance__optimizing {
+  padding: 2px 4px;
+  border-radius: 2px;
+  font-size: 8px;
+  font-weight: bold;
+  background-color: #10b981;
+  color: #000;
+}
+
+.simple-performance__metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.simple-performance__metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.simple-performance__metric-label {
+  color: #ccc;
+  font-size: 11px;
+}
+
+.simple-performance__metric-value {
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* Position variants for minimal mode */
+.simple-performance--top-left {
+  top: 20px;
+  left: 20px;
+}
+
+.simple-performance--top-right {
+  top: 20px;
+  right: 20px;
+}
+
+.simple-performance--bottom-left {
+  bottom: 20px;
+  left: 20px;
+}
+
+.simple-performance--bottom-right {
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .simple-performance--minimal {
+    padding: 6px 8px;
+    font-size: 11px;
+    min-width: 120px;
+    gap: 8px;
+  }
+  
+  .simple-performance--minimal .simple-performance__fps-value {
+    font-size: 16px;
+  }
+  
+  .simple-performance--dashboard {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+    max-width: none;
+    font-size: 11px;
+  }
+  
+  .simple-performance--top-left,
+  .simple-performance--top-right {
+    top: 10px;
+  }
+  
+  .simple-performance--top-left,
+  .simple-performance--bottom-left {
+    left: 10px;
+  }
+  
+  .simple-performance--top-right,
+  .simple-performance--bottom-right {
+    right: 10px;
+  }
+  
+  .simple-performance--bottom-left,
+  .simple-performance--bottom-right {
+    bottom: 10px;
+  }
+}
+
+/* Animation for low FPS warning */
+@keyframes pulse-warning {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.simple-performance__fps-value[style*="ef4444"],
+.simple-performance__metric-value[style*="ef4444"] {
+  animation: pulse-warning 1s infinite;
+}
+
+/* Smooth transitions */
+.simple-performance__fps-value,
+.simple-performance__memory-value,
+.simple-performance__metric-value {
+  transition: color 0.3s ease;
+}/* Mem
+ory warning styles */
+.simple-performance__warning-indicator {
+  font-size: 10px;
+  animation: pulse 2s infinite;
+}
+
+.simple-performance__cleanup-btn {
+  background: none;
+  border: none;
+  font-size: 10px;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 2px;
+  transition: background-color 0.2s;
+}
+
+.simple-performance__cleanup-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.simple-performance__cleanup-btn--dashboard {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10b981;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.simple-performance__cleanup-btn--dashboard:hover {
+  background: rgba(16, 185, 129, 0.3);
+}
+
+.simple-performance__warning-badge {
+  font-size: 12px;
+  animation: pulse 2s infinite;
+}
+
+.simple-performance__memory-warnings {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.simple-performance__warnings-header {
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  opacity: 0.8;
+  color: #f59e0b;
+}
+
+.simple-performance__warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 2px solid #f59e0b;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+  border-radius: 0 4px 4px 0;
+  font-size: 10px;
+}
+
+.simple-performance__warning-level {
+  font-weight: 600;
+  margin-right: 4px;
+  color: #f59e0b;
+}
+
+.simple-performance__warning-message {
+  opacity: 0.9;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

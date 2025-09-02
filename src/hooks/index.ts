@@ -1,6 +1,21 @@
 // Custom hooks exports
-// This will be implemented in future tasks
-
-export * from './usePerformance'
 export * from './useAssetLoader'
-export * from './useDebugTools'
+export * from './useAssetManager'
+export * from './useCameraSystem'
+export * from './useCameraSystemInitializer'
+export * from './useDebugSystem'
+// export * from './useDebugTools' // Commented out due to conflict with useDebugSystem
+export * from './useErrorRecovery'
+export * from './useInstancing'
+export * from './useLoadingStates'
+export * from './useLOD'
+export * from './useMemoryManager'
+export * from './useSimpleMemoryManager'
+export * from './useMobileOptimization'
+export * from './useMobileSystem'
+export * from './usePerformance'
+export * from './useRenderingSystem'
+export * from './useSettingsPanel'
+export * from './useSimpleErrorHandler'
+export * from './useSimplePreferences'
+export * from './useSimpleSettingsIntegration'

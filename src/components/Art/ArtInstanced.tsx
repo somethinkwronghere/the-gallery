@@ -7,7 +7,7 @@ import { useInstancing } from '../../hooks/useInstancing'
 import Picture from '../Picture/Picture'
 import Display from '../Display/Display'
 import Wolf from './Wolf'
-import Globe from './Globe'
+
 
 /**
  * Enhanced Art component with instancing support
@@ -219,8 +219,7 @@ const ArtInstanced: React.FC = () => {
         rotation={[0, 0, 0]}
       />
 
-      {/* Globe Hologram - Above the wolf, center */}
-      <Globe />
+
 
       {/* Development info - only show in development mode */}
       {process.env.NODE_ENV === 'development' && (

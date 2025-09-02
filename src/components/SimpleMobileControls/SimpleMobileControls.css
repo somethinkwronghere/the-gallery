@@ -1,0 +1,225 @@
+/* Simple Mobile Controls - Optimized for Performance */
+.simple-mobile-controls {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1000;
+  user-select: none;
+  touch-action: none;
+}
+
+/* Joystick Containers */
+.joystick-container {
+  position: absolute;
+  bottom: 80px;
+  pointer-events: auto;
+  z-index: 1001;
+}
+
+.joystick-container.left {
+  left: 20px;
+}
+
+.joystick-container.right {
+  right: 20px;
+}
+
+/* Simple Joystick */
+.simple-joystick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.joystick-area {
+  position: relative;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  will-change: transform;
+}
+
+.joystick-base {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.joystick-stick {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  will-change: transform;
+  transition: none; /* Remove transitions for better performance */
+}
+
+.simple-joystick.active .joystick-base {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.simple-joystick.active .joystick-stick {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Action Buttons */
+.action-buttons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  pointer-events: auto;
+  z-index: 1002;
+}
+
+.action-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  user-select: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  will-change: transform;
+  transition: none; /* Remove transitions for better performance */
+}
+
+.action-btn:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.jump-btn {
+  border-color: rgba(76, 175, 80, 0.5);
+}
+
+.jump-btn:active {
+  background: rgba(76, 175, 80, 0.2);
+  border-color: rgba(76, 175, 80, 0.7);
+}
+
+.menu-btn {
+  border-color: rgba(255, 152, 0, 0.5);
+}
+
+.menu-btn:active {
+  background: rgba(255, 152, 0, 0.2);
+  border-color: rgba(255, 152, 0, 0.7);
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .joystick-container {
+    bottom: 60px;
+  }
+  
+  .joystick-container.left {
+    left: 15px;
+  }
+  
+  .joystick-container.right {
+    right: 15px;
+  }
+  
+  .action-buttons {
+    right: 15px;
+    top: 15px;
+    gap: 12px;
+  }
+  
+  .action-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 14px;
+  }
+}
+
+/* Landscape Optimization */
+@media (orientation: landscape) and (max-height: 500px) {
+  .joystick-container {
+    bottom: 20px;
+  }
+  
+  .joystick-container.left {
+    left: 15px;
+  }
+  
+  .joystick-container.right {
+    right: 15px;
+  }
+  
+  .action-buttons {
+    gap: 10px;
+    top: 10px;
+    right: 15px;
+  }
+  
+  .action-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 12px;
+  }
+}
+
+/* Performance Optimizations */
+@media (pointer: coarse) {
+  .action-btn {
+    min-width: 50px;
+    min-height: 50px;
+  }
+  
+  .joystick-area {
+    min-width: 100px;
+    min-height: 100px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .action-btn,
+  .joystick-stick,
+  .joystick-base {
+    transition: none !important;
+  }
+}
+
+/* High Contrast */
+@media (prefers-contrast: high) {
+  .joystick-base,
+  .action-btn {
+    border-width: 3px;
+    border-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .joystick-stick {
+    background: white;
+    border-color: white;
+  }
+}

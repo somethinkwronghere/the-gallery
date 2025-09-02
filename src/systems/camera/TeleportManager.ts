@@ -12,6 +12,8 @@ export class TeleportManager implements ITeleportManager {
   private cameraUtilities: CameraUtilities
   private teleportIdCounter = 0
   private storageKey = 'teleport_points'
+  private lastTeleportStorageKey = 'last_teleport_state'
+  private pendingLastTeleport: { position: Vector3; rotation?: Euler } | null = null
   private uiVisible = false
   private mapBounds = {
     minX: -50,
@@ -24,6 +26,9 @@ export class TeleportManager implements ITeleportManager {
     this.cameraUtilities = cameraUtilities
     this.loadFromStorage()
     this.initializePredefinedPoints()
+
+    // Load last teleport state for continuity (applied when camera becomes available)
+    this.loadLastTeleportState()
   }
 
   private initializePredefinedPoints(): void {
@@ -145,6 +150,7 @@ export class TeleportManager implements ITeleportManager {
     }
 
     await this.teleportToPosition(point.position, point.rotation, options)
+    this.saveLastTeleportState(point.position, point.rotation)
     console.log(`Teleported to: ${point.name}`)
   }
 
@@ -162,6 +168,7 @@ export class TeleportManager implements ITeleportManager {
     }
 
     await this.cameraUtilities.setState(targetState, { ...defaultOptions, ...options })
+    this.saveLastTeleportState(position, rotation)
   }
 
   quickTeleportTo(pointId: string): void {
@@ -187,6 +194,7 @@ export class TeleportManager implements ITeleportManager {
     }
 
     this.cameraUtilities.setState(targetState) // No transition options = immediate
+    this.saveLastTeleportState(position, rotation)
   }
 
   showTeleportUI(visible: boolean): void {
@@ -334,6 +342,44 @@ export class TeleportManager implements ITeleportManager {
       console.error('Failed to load teleport points from storage:', error)
       this.teleportPoints = []
     }
+  }
+
+  private saveLastTeleportState(position: Vector3, rotation?: Euler): void {
+    try {
+      const data = {
+        position: { x: position.x, y: position.y, z: position.z },
+        rotation: rotation ? { x: rotation.x, y: rotation.y, z: rotation.z } : undefined,
+        savedAt: new Date().toISOString()
+      }
+      localStorage.setItem(this.lastTeleportStorageKey, JSON.stringify(data))
+    } catch (error) {
+      // Non-fatal
+    }
+  }
+
+  private loadLastTeleportState(): void {
+    try {
+      const stored = localStorage.getItem(this.lastTeleportStorageKey)
+      if (!stored) return
+      const data = JSON.parse(stored)
+      if (!data || !data.position) return
+
+      const pos = new Vector3(data.position.x, data.position.y, data.position.z)
+      const rot = data.rotation ? new Euler(data.rotation.x, data.rotation.y, data.rotation.z) : undefined
+
+      // Defer applying until camera is ready
+      this.pendingLastTeleport = { position: pos, rotation: rot }
+    } catch (error) {
+      // Ignore corrupted state
+    }
+  }
+
+  // Call this after the camera is set/initialized
+  applyPendingLastTeleport(): void {
+    if (!this.pendingLastTeleport) return
+    const { position, rotation } = this.pendingLastTeleport
+    this.quickTeleportToPosition(position, rotation)
+    this.pendingLastTeleport = null
   }
 
   getTeleportStats(): {

@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Vector3 } from 'three'
 import { useCameraSystem } from '../../hooks/useCameraSystem'
+import { useTeleportSettings } from '../../systems/settings/UserSettingsContext'
 import { TeleportCategory } from '../../types/camera'
+import { useSimpleErrorHandler } from '../../hooks/useSimpleErrorHandler'
 import './TeleportUI.css'
 
 interface TeleportUIProps {
@@ -21,13 +23,16 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
     teleportFromMap
   } = useCameraSystem()
 
+  const { settings: teleportSettings } = useTeleportSettings()
+  const { handleError, safeExecute, showMessage } = useSimpleErrorHandler()
+
   const [selectedCategory, setSelectedCategory] = useState<TeleportCategory | 'all'>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [showAddForm, setShowAddForm] = useState(false)
   const [newPointName, setNewPointName] = useState('')
   const [newPointDescription, setNewPointDescription] = useState('')
   const [newPointCategory, setNewPointCategory] = useState<TeleportCategory>('custom')
-  const [showMiniMap, setShowMiniMap] = useState(false)
+  const [showMiniMap, setShowMiniMap] = useState(teleportSettings.showMiniMap)
 
   const categories: (TeleportCategory | 'all')[] = ['all', 'gallery', 'artwork', 'entrance', 'viewpoint', 'debug', 'custom']
 
@@ -42,17 +47,21 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
   })
 
   const handleTeleport = async (pointId: string, instant: boolean = false) => {
-    try {
-      if (instant) {
+    const result = await safeExecute(async () => {
+      if (instant && teleportSettings.enableQuickTeleport) {
         quickTeleportTo(pointId)
+        showMessage('Teleport tamamlandı!', 'info', 2000)
       } else {
         await teleportTo(pointId, {
-          duration: 1500,
+          duration: teleportSettings.defaultTeleportDuration,
           easing: 'easeInOut'
         })
+        showMessage('Teleport tamamlandı!', 'info', 2000)
       }
-    } catch (error) {
-      console.error('Teleport failed:', error)
+    }, undefined, 'unknown')
+
+    if (!result) {
+      showMessage('Teleport başarısız oldu', 'error')
     }
   }
 
@@ -79,16 +88,19 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
   }
 
   const handleMapClick = async (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!showMiniMap) return
+    if (!showMiniMap || !teleportSettings.enableMapTeleport) return
 
     const rect = event.currentTarget.getBoundingClientRect()
     const x = (event.clientX - rect.left) / rect.width
     const y = (event.clientY - rect.top) / rect.height
 
-    try {
+    const result = await safeExecute(async () => {
       await teleportFromMap({ x, y })
-    } catch (error) {
-      console.error('Map teleport failed:', error)
+      showMessage('Harita teleportu tamamlandı!', 'info', 2000)
+    }, undefined, 'unknown')
+
+    if (!result) {
+      showMessage('Harita teleportu başarısız oldu', 'error')
     }
   }
 
@@ -114,26 +126,26 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
     <div className="teleport-ui-overlay">
       <div className="teleport-ui-panel">
         <div className="teleport-ui-header">
-          <h2>Teleport System</h2>
+          <h2>Teleport Sistemi</h2>
           <div className="teleport-ui-controls">
             <button
               onClick={() => setShowMiniMap(!showMiniMap)}
               className={`teleport-btn ${showMiniMap ? 'active' : ''}`}
-              title="Toggle mini map"
+              title="Mini haritayı aç/kapat"
             >
               🗺️
             </button>
             <button
               onClick={() => setShowAddForm(!showAddForm)}
               className={`teleport-btn ${showAddForm ? 'active' : ''}`}
-              title="Add teleport point"
+              title="Teleport noktası ekle"
             >
               ➕
             </button>
             <button
               onClick={onClose}
               className="teleport-btn close"
-              title="Close teleport UI"
+              title="Teleport arayüzünü kapat"
             >
               ✕
             </button>
@@ -172,7 +184,7 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
               })}
               
               <div className="map-instructions">
-                Click anywhere to teleport
+                Teleport için herhangi bir yere tıklayın
               </div>
             </div>
           </div>
@@ -180,11 +192,11 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
 
         {showAddForm && (
           <div className="add-teleport-form">
-            <h3>Add Teleport Point</h3>
+            <h3>Teleport Noktası Ekle</h3>
             <div className="form-group">
               <input
                 type="text"
-                placeholder="Point name"
+                placeholder="Nokta adı"
                 value={newPointName}
                 onChange={(e) => setNewPointName(e.target.value)}
                 className="teleport-input"
@@ -193,7 +205,7 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
             </div>
             <div className="form-group">
               <textarea
-                placeholder="Description (optional)"
+                placeholder="Açıklama (isteğe bağlı)"
                 value={newPointDescription}
                 onChange={(e) => setNewPointDescription(e.target.value)}
                 className="teleport-textarea"
@@ -207,11 +219,11 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
                 onChange={(e) => setNewPointCategory(e.target.value as TeleportCategory)}
                 className="teleport-select"
               >
-                <option value="custom">Custom</option>
-                <option value="gallery">Gallery</option>
-                <option value="artwork">Artwork</option>
-                <option value="viewpoint">Viewpoint</option>
-                <option value="debug">Debug</option>
+                <option value="custom">Özel</option>
+                <option value="gallery">Galeri</option>
+                <option value="artwork">Eser</option>
+                <option value="viewpoint">Bakış Açısı</option>
+                <option value="debug">Hata Ayıklama</option>
               </select>
             </div>
             <div className="form-actions">
@@ -220,13 +232,13 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
                 disabled={!newPointName.trim()}
                 className="teleport-btn primary"
               >
-                Add Point
+                Nokta Ekle
               </button>
               <button
                 onClick={() => setShowAddForm(false)}
                 className="teleport-btn secondary"
               >
-                Cancel
+                İptal
               </button>
             </div>
           </div>
@@ -240,7 +252,7 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
                 onClick={() => setSelectedCategory(category)}
                 className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
               >
-                {category === 'all' ? '🌐' : getCategoryIcon(category as TeleportCategory)} {category}
+                {category === 'all' ? '🌐' : getCategoryIcon(category as TeleportCategory)} {category === 'all' ? 'Hepsi' : category}
               </button>
             ))}
           </div>
@@ -248,7 +260,7 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
           <div className="search-filter">
             <input
               type="text"
-              placeholder="Search teleport points..."
+              placeholder="Teleport noktalarında ara..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="teleport-search"
@@ -259,9 +271,9 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
         <div className="teleport-points-list">
           {filteredPoints.length === 0 ? (
             <div className="empty-state">
-              <p>No teleport points found.</p>
+              <p>Teleport noktası bulunamadı.</p>
               {selectedCategory !== 'all' && (
-                <p>Try selecting a different category or clearing the search.</p>
+                <p>Farklı bir kategori seçmeyi veya aramayı temizlemeyi deneyin.</p>
               )}
             </div>
           ) : (
@@ -280,7 +292,7 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
                       onClick={() => handleTeleport(point.id, true)}
                       disabled={isTransitioning}
                       className="teleport-btn instant"
-                      title="Instant teleport"
+                      title="Anında teleport"
                     >
                       ⚡
                     </button>
@@ -288,14 +300,14 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
                       onClick={() => handleTeleport(point.id, false)}
                       disabled={isTransitioning}
                       className="teleport-btn smooth"
-                      title="Smooth teleport"
+                      title="Yumuşak geçişle teleport"
                     >
                       🎯
                     </button>
                     <button
                       onClick={() => removeTeleportPoint(point.id)}
                       className="teleport-btn danger"
-                      title="Remove point"
+                      title="Noktayı kaldır"
                     >
                       🗑️
                     </button>
@@ -310,7 +322,7 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
                 
                 <div className="point-metadata">
                   <div className="point-position">
-                    Position: {formatPosition(point.position)}
+                    Konum: {formatPosition(point.position)}
                   </div>
                   {point.tags.length > 0 && (
                     <div className="point-tags">
@@ -330,16 +342,16 @@ export function TeleportUI({ visible, onClose }: TeleportUIProps) {
         {isTransitioning && (
           <div className="teleport-loading">
             <div className="loading-spinner"></div>
-            <div>Teleporting...</div>
+            <div>Teleport ediliyor...</div>
           </div>
         )}
 
         <div className="teleport-ui-footer">
           <div className="teleport-stats">
-            {filteredPoints.length} of {teleportPoints.length} points
+            {teleportPoints.length} noktadan {filteredPoints.length} tanesi
           </div>
           <div className="teleport-help">
-            💡 Tip: Use Ctrl+1/2/3 for quick development teleports
+            💡 İpucu: Hızlı geliştirme teleportları için Ctrl+1/2/3 kullanın
           </div>
         </div>
       </div>

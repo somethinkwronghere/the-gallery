@@ -7,6 +7,9 @@ export * from './assets'
 // Debug types
 export * from './debug'
 
+// Mobile types
+export * from './mobile'
+
 // Rendering types
 export * from './rendering'
 

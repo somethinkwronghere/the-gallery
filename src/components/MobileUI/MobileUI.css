@@ -1,0 +1,536 @@
+/* Mobile UI Styles */
+.mobile-ui {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Mobile HUD */
+.mobile-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px;
+  pointer-events: auto;
+  z-index: 1001;
+}
+
+.hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.hud-left,
+.hud-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Quality Indicator */
+.quality-indicator {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.quality-badge {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quality-badge.low {
+  color: #ff5722;
+}
+
+.quality-badge.medium {
+  color: #ff9800;
+}
+
+.quality-badge.high {
+  color: #4caf50;
+}
+
+/* FPS Indicator */
+.fps-indicator {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.fps-value {
+  font-size: 10px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.fps-value.low {
+  color: #f44336;
+}
+
+.fps-value.medium {
+  color: #ff9800;
+}
+
+.fps-value.high {
+  color: #4caf50;
+}
+
+/* Battery Indicator */
+.battery-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.battery-level {
+  width: 20px;
+  height: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.battery-level::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 2px;
+  width: 2px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 0 1px 1px 0;
+}
+
+.battery-fill {
+  height: 100%;
+  background: #4caf50;
+  border-radius: 1px;
+  transition: all 0.3s ease;
+}
+
+.battery-level.low .battery-fill {
+  background: #f44336;
+}
+
+.battery-text {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  font-variant-numeric: tabular-nums;
+}
+
+/* HUD Buttons */
+.hud-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  user-select: none;
+}
+
+.hud-button:hover,
+.hud-button:active {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.hud-button:active {
+  transform: scale(0.95);
+}
+
+/* Mobile Menu */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  pointer-events: auto;
+  z-index: 1002;
+  animation: fadeIn 0.3s ease;
+}
+
+.mobile-menu {
+  background: rgba(30, 30, 30, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  width: 100%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.close-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+}
+
+.close-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.mobile-menu-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.setting-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+/* Quality Buttons */
+.quality-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.quality-button {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: capitalize;
+}
+
+.quality-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.quality-button.active {
+  background: rgba(33, 150, 243, 0.3);
+  border-color: rgba(33, 150, 243, 0.6);
+  color: #2196f3;
+}
+
+/* Toggle Button */
+.toggle-button {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.toggle-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.toggle-button.active {
+  background: rgba(76, 175, 80, 0.3);
+  border-color: rgba(76, 175, 80, 0.6);
+  color: #4caf50;
+}
+
+/* Sensitivity Slider */
+.sensitivity-slider-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sensitivity-slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.sensitivity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2196f3;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.sensitivity-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2196f3;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 4px;
+}
+
+/* Device Info */
+.device-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 13px;
+}
+
+.info-item span:first-child {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.info-item span:last-child {
+  color: rgba(255, 255, 255, 0.9);
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+}
+
+/* Orientation Hint */
+.orientation-hint {
+  position: fixed;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 16px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  pointer-events: auto;
+  z-index: 1003;
+  animation: pulse 2s infinite;
+}
+
+.hint-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.hint-icon {
+  font-size: 24px;
+  animation: rotate 2s infinite;
+}
+
+.hint-text {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Responsive Adjustments */
+.mobile-ui.landscape .orientation-hint {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .mobile-hud {
+    padding: 8px 12px;
+  }
+  
+  .hud-left,
+  .hud-right {
+    gap: 6px;
+  }
+  
+  .mobile-menu {
+    margin: 10px;
+    max-width: none;
+  }
+  
+  .mobile-menu-content {
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .quality-buttons {
+    flex-direction: column;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .mobile-hud {
+    padding: 6px 12px;
+  }
+  
+  .hud-button {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+  
+  .mobile-menu {
+    max-height: 70vh;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .mobile-hud,
+  .mobile-menu,
+  .orientation-hint {
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hud-button,
+  .quality-button,
+  .toggle-button,
+  .close-button,
+  .mobile-menu-overlay,
+  .mobile-menu,
+  .orientation-hint {
+    animation: none;
+    transition: none;
+  }
+}

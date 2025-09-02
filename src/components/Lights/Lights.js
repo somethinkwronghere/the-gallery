@@ -7,7 +7,7 @@ const Lights = ({ night, performance }) => {
 
     return (
         <>
-            <ambientLight intensity={night ? 0.07 : 0.35}/>
+            <ambientLight intensity={night ? 0.15 : 0.35}/>
             {/* moon/sunlight */}
             <DirectionalLight
                 position={[29, 50, -60]}
@@ -35,7 +35,7 @@ const Lights = ({ night, performance }) => {
                 intensity={performance ? 0.35 : 0.8} 
                 position={[0, 19, 13]}
             /> 
-            {performance ?                 
+            {!performance ?                 
                 <>
                     {/* liam portrait light */}
                     <SpotLight 

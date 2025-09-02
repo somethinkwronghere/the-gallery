@@ -146,6 +146,7 @@ export interface LoadingOptions {
   timeout?: number
   retryCount?: number
   fallbackUrl?: string
+  onProgress?: (progress: LoadingProgress) => void
 }
 
 // Asset state for context

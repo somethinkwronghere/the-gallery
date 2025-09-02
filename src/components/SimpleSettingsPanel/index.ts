@@ -1,0 +1,1 @@
+export { SimpleSettingsPanel } from './SimpleSettingsPanel'

@@ -286,6 +286,11 @@ export class CameraSystem implements ICameraSystem {
     
     this.initialized = true
     console.log('Camera system initialized')
+
+    // Apply any pending last teleport resume once camera is ready
+    try {
+      this.teleport.applyPendingLastTeleport()
+    } catch {}
   }
 
   setCamera(camera: Camera): void {

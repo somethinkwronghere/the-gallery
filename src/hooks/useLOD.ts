@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
 import { Object3D, Vector3, Camera } from 'three'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { lodManager } from '../systems/lod/LODManager'
 import { LODHelper } from '../systems/lod/LODHelper'
 import { LODLevel, PerformanceLevel } from '../types/performance'
@@ -182,6 +182,3 @@ export function useAutoLOD(
 
   return lod
 }
-
-// useThree hook'u için import
-import { useThree } from '@react-three/fiber'

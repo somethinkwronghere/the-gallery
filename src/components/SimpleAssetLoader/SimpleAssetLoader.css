@@ -1,0 +1,144 @@
+.simple-asset-loader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.simple-asset-loader__loading,
+.simple-asset-loader__error {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Simple Asset Placeholder */
+.simple-asset-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  min-width: 200px;
+  min-height: 150px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.simple-asset-placeholder__icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.8;
+}
+
+.simple-asset-placeholder__message {
+  font-size: 14px;
+  margin-bottom: 16px;
+  opacity: 0.9;
+  max-width: 250px;
+  word-wrap: break-word;
+}
+
+/* Progress Bar */
+.simple-asset-placeholder__progress {
+  width: 100%;
+  max-width: 200px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.simple-asset-placeholder__progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Retry Button */
+.simple-asset-placeholder__retry {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.simple-asset-placeholder__retry:hover {
+  background: #ff5252;
+}
+
+.simple-asset-placeholder__retry:active {
+  transform: translateY(1px);
+}
+
+/* Simple Spinner */
+.simple-asset-placeholder__spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .simple-asset-placeholder {
+    min-width: 150px;
+    min-height: 120px;
+    padding: 16px;
+  }
+
+  .simple-asset-placeholder__icon {
+    font-size: 36px;
+    margin-bottom: 8px;
+  }
+
+  .simple-asset-placeholder__message {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .simple-asset-placeholder {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .simple-asset-placeholder {
+    border-width: 3px;
+    border-color: #ffffff;
+  }
+  
+  .simple-asset-placeholder__message {
+    font-weight: bold;
+  }
+}

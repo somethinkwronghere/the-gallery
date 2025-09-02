@@ -1,0 +1,220 @@
+/* Unified Loading Styles */
+.unified-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: white;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Global Progress Section */
+.unified-loading__global {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.unified-loading__title {
+  font-size: 3rem;
+  font-weight: 300;
+  margin: 0 0 2rem 0;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.unified-loading__progress-container {
+  width: 300px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 auto 1rem auto;
+}
+
+.unified-loading__progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  border-radius: 2px;
+  transition: width 0.3s ease-out;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.unified-loading__percentage {
+  font-size: 1.2rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+/* Individual Loading Items */
+.unified-loading__items {
+  max-width: 400px;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 0 1rem;
+}
+
+.loading-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.loading-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.loading-item--error {
+  background: rgba(244, 67, 54, 0.2);
+  border-color: rgba(244, 67, 54, 0.3);
+}
+
+.loading-item__icon {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.loading-item__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.loading-item__message {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.loading-item__stage {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.loading-item__progress {
+  width: 60px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-left: 1rem;
+}
+
+.loading-item__progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #2196F3, #03DAC6);
+  border-radius: 2px;
+  transition: width 0.3s ease-out;
+}
+
+.loading-item--error .loading-item__progress-bar {
+  background: #F44336;
+}
+
+/* Loading Types */
+.loading-item--asset {
+  border-left: 3px solid #4CAF50;
+}
+
+.loading-item--scene {
+  border-left: 3px solid #2196F3;
+}
+
+.loading-item--teleport {
+  border-left: 3px solid #FF9800;
+}
+
+.loading-item--general {
+  border-left: 3px solid #9C27B0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .unified-loading__title {
+    font-size: 2rem;
+  }
+  
+  .unified-loading__progress-container {
+    width: 250px;
+  }
+  
+  .unified-loading__items {
+    max-width: 90%;
+    padding: 0 0.5rem;
+  }
+  
+  .loading-item {
+    padding: 0.5rem;
+  }
+  
+  .loading-item__icon {
+    font-size: 1.2rem;
+    margin-right: 0.75rem;
+    min-width: 1.5rem;
+  }
+  
+  .loading-item__message {
+    font-size: 0.8rem;
+  }
+  
+  .loading-item__stage {
+    font-size: 0.7rem;
+  }
+  
+  .loading-item__progress {
+    width: 40px;
+  }
+}
+
+/* Animation for smooth transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loading-item {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Scrollbar styling for loading items */
+.unified-loading__items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.unified-loading__items::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.unified-loading__items::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.unified-loading__items::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { usePerformance } from '../../hooks/usePerformance';
 import './FPSCounter.css';
 
@@ -7,7 +7,7 @@ interface FPSCounterProps {
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 }
 
-const FPSCounter: React.FC<FPSCounterProps> = ({ 
+const FPSCounter: React.FC<FPSCounterProps> = memo(({ 
   visible = true, 
   position = 'top-left' 
 }) => {
@@ -41,7 +41,7 @@ const FPSCounter: React.FC<FPSCounterProps> = ({
         >
           {metrics.fps}
         </span>
-        <span className="fps-counter__label">FPS</span>
+        <span className="fps-counter__label">KARE/SN</span>
       </div>
       
       <div className="fps-counter__details">
@@ -52,11 +52,14 @@ const FPSCounter: React.FC<FPSCounterProps> = ({
           className="fps-counter__level"
           style={{ color: getLevelColor(level) }}
         >
-          {level.toUpperCase()}
+          {level === 'high' ? 'YÜKSEK' : level === 'medium' ? 'ORTA' : 'DÜŞÜK'}
         </div>
       </div>
     </div>
   );
-};
+});
+
+// Display name for debugging
+FPSCounter.displayName = 'FPSCounter';
 
 export default FPSCounter;

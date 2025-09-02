@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, memo, useMemo } from 'react'
 import { useDebug } from '../../systems/debug/DebugContext'
 import { PerformanceMetrics } from './PerformanceMetrics'
 import { MemoryMetrics } from './MemoryMetrics'
@@ -13,7 +13,7 @@ interface DebugPanelProps {
   className?: string
 }
 
-export function DebugPanel({ className = '' }: DebugPanelProps) {
+export const DebugPanel = memo<DebugPanelProps>(({ className = '' }) => {
   const { panelVisible, actions, stats, config, mode } = useDebug()
   const [activeTab, setActiveTab] = useState<string>('performance')
   const [collapsed, setCollapsed] = useState(false)
@@ -39,6 +39,17 @@ export function DebugPanel({ className = '' }: DebugPanelProps) {
     }
   }, [actions, config.screenshotFormat])
 
+  // Memoize tabs array to prevent recreation
+  const tabs = useMemo(() => [
+    { id: 'performance', label: 'Performance', icon: '📊' },
+    { id: 'memory', label: 'Memory', icon: '💾' },
+    { id: 'render', label: 'Render', icon: '🎨' },
+    { id: 'visualizations', label: 'Visualizations', icon: '👁️' },
+    { id: 'bookmarks', label: 'Bookmarks', icon: '📍' },
+    { id: 'logs', label: 'Logs', icon: '📝' },
+    { id: 'profiling', label: 'Profiling', icon: '⏱️' }
+  ], [])
+
   if (!panelVisible) {
     return (
       <div className={`debug-panel-toggle ${className}`}>
@@ -52,16 +63,6 @@ export function DebugPanel({ className = '' }: DebugPanelProps) {
       </div>
     )
   }
-
-  const tabs = [
-    { id: 'performance', label: 'Performance', icon: '📊' },
-    { id: 'memory', label: 'Memory', icon: '💾' },
-    { id: 'render', label: 'Render', icon: '🎨' },
-    { id: 'visualizations', label: 'Visualizations', icon: '👁️' },
-    { id: 'bookmarks', label: 'Bookmarks', icon: '📍' },
-    { id: 'logs', label: 'Logs', icon: '📝' },
-    { id: 'profiling', label: 'Profiling', icon: '⏱️' }
-  ]
 
   return (
     <div className={`debug-panel ${collapsed ? 'collapsed' : ''} ${className}`}>
@@ -154,6 +155,11 @@ export function DebugPanel({ className = '' }: DebugPanelProps) {
       )}
     </div>
   )
-}
+}, (prevProps, nextProps) => {
+  // Only re-render if className changes
+  return prevProps.className === nextProps.className
+})
+
+DebugPanel.displayName = 'DebugPanel'
 
 export default DebugPanel

@@ -1,0 +1,246 @@
+.simple-memory-monitor {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  user-select: none;
+  z-index: 1000;
+}
+
+/* Minimal mode */
+.simple-memory-monitor--minimal {
+  position: fixed;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  min-width: 120px;
+}
+
+.simple-memory-monitor--minimal.simple-memory-monitor--top-left {
+  top: 60px;
+  left: 16px;
+}
+
+.simple-memory-monitor--minimal.simple-memory-monitor--top-right {
+  top: 60px;
+  right: 16px;
+}
+
+.simple-memory-monitor--minimal.simple-memory-monitor--bottom-left {
+  bottom: 16px;
+  left: 16px;
+}
+
+.simple-memory-monitor--minimal.simple-memory-monitor--bottom-right {
+  bottom: 16px;
+  right: 16px;
+}
+
+.simple-memory-monitor__memory {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.simple-memory-monitor__memory-value {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.simple-memory-monitor__memory-label {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.simple-memory-monitor__warning-indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+  animation: pulse 2s infinite;
+}
+
+.simple-memory-monitor__cleanup-btn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.simple-memory-monitor__cleanup-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Detailed mode */
+.simple-memory-monitor--detailed {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 280px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.simple-memory-monitor__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.simple-memory-monitor__header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.simple-memory-monitor__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.simple-memory-monitor__action-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.simple-memory-monitor__action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.simple-memory-monitor__action-btn--emergency {
+  background: rgba(239, 68, 68, 0.3);
+  animation: pulse 2s infinite;
+}
+
+.simple-memory-monitor__action-btn--emergency:hover {
+  background: rgba(239, 68, 68, 0.5);
+}
+
+.simple-memory-monitor__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.simple-memory-monitor__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.simple-memory-monitor__stat-label {
+  font-size: 11px;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.simple-memory-monitor__stat-value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.simple-memory-monitor__warnings {
+  margin-bottom: 16px;
+}
+
+.simple-memory-monitor__warnings-header {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+
+.simple-memory-monitor__warning {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.simple-memory-monitor__warning-level {
+  font-size: 10px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  opacity: 0.8;
+}
+
+.simple-memory-monitor__warning-message {
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.simple-memory-monitor__warning-recommendations {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.simple-memory-monitor__recommendation {
+  margin-bottom: 2px;
+}
+
+.simple-memory-monitor__config {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 12px;
+}
+
+.simple-memory-monitor__config-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.simple-memory-monitor__config-item input[type="checkbox"] {
+  accent-color: #10b981;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .simple-memory-monitor--detailed {
+    width: calc(100vw - 32px);
+    max-width: 280px;
+  }
+  
+  .simple-memory-monitor--minimal {
+    font-size: 11px;
+  }
+  
+  .simple-memory-monitor__memory-value {
+    font-size: 13px;
+  }
+}

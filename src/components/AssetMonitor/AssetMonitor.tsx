@@ -33,7 +33,7 @@ export function AssetMonitor({
   return (
     <div className={`asset-monitor asset-monitor--${position}`}>
       <div className="asset-monitor__header" onClick={() => setExpanded(!expanded)}>
-        <h3>Asset Monitor</h3>
+        <h3>Varlık İzleyici</h3>
         <span className="asset-monitor__toggle">
           {expanded ? '−' : '+'}
         </span>
@@ -43,22 +43,22 @@ export function AssetMonitor({
         <div className="asset-monitor__content">
           {/* Cache Statistics */}
           <div className="asset-monitor__section">
-            <h4>Cache Stats</h4>
+            <h4>Önbellek İstatistikleri</h4>
             <div className="asset-monitor__stats">
               <div className="stat">
-                <span className="stat__label">Total Assets:</span>
+                <span className="stat__label">Toplam Varlık:</span>
                 <span className="stat__value">{cacheStats.totalAssets}</span>
               </div>
               <div className="stat">
-                <span className="stat__label">Memory Usage:</span>
+                <span className="stat__label">Bellek Kullanımı:</span>
                 <span className="stat__value">{formatBytes(cacheStats.totalMemoryUsage)}</span>
               </div>
               <div className="stat">
-                <span className="stat__label">Hit Rate:</span>
+                <span className="stat__label">İsabet Oranı:</span>
                 <span className="stat__value">{formatPercentage(cacheStats.hitRate / (cacheStats.hitRate + cacheStats.missRate) || 0)}</span>
               </div>
               <div className="stat">
-                <span className="stat__label">Evictions:</span>
+                <span className="stat__label">Tahliyeler:</span>
                 <span className="stat__value">{cacheStats.evictionCount}</span>
               </div>
             </div>
@@ -67,7 +67,7 @@ export function AssetMonitor({
           {/* Currently Loading Assets */}
           {Array.from(loadingAssets.values()).length > 0 && (
             <div className="asset-monitor__section">
-              <h4>Loading Assets</h4>
+              <h4>Yüklenen Varlıklar</h4>
               <div className="asset-monitor__loading">
                 {Array.from(loadingAssets.values()).map((progress) => (
                   <div key={progress.assetId} className="loading-item">
@@ -93,7 +93,7 @@ export function AssetMonitor({
           {/* Loading States */}
           {loadingStates.length > 0 && (
             <div className="asset-monitor__section">
-              <h4>Asset States</h4>
+              <h4>Varlık Durumları</h4>
               <div className="asset-monitor__states">
                 {loadingStates.map((state, index) => (
                   <div key={index} className={`state-item state-item--${state.loading ? 'loading' : state.error ? 'error' : 'loaded'}`}>
@@ -121,7 +121,7 @@ export function AssetMonitor({
 
           {/* Asset Types Breakdown */}
           <div className="asset-monitor__section">
-            <h4>Asset Types</h4>
+            <h4>Varlık Türleri</h4>
             <div className="asset-monitor__types">
               {['model', 'texture', 'audio'].map(type => {
                 const typeAssets = Array.from(loadingAssets.values()).filter(
@@ -129,7 +129,7 @@ export function AssetMonitor({
                 )
                 return (
                   <div key={type} className="type-stat">
-                    <span className="type-stat__label">{type}:</span>
+                    <span className="type-stat__label">{type === 'model' ? 'model' : type === 'texture' ? 'doku' : 'ses'}:</span>
                     <span className="type-stat__count">{typeAssets.length}</span>
                   </div>
                 )
@@ -139,10 +139,10 @@ export function AssetMonitor({
 
           {/* Performance Impact */}
           <div className="asset-monitor__section">
-            <h4>Performance Impact</h4>
+            <h4>Performans Etkisi</h4>
             <div className="asset-monitor__performance">
               <div className="perf-indicator">
-                <span className="perf-indicator__label">Cache Efficiency:</span>
+                <span className="perf-indicator__label">Önbellek Verimliliği:</span>
                 <span className={`perf-indicator__value ${
                   cacheStats.hitRate / (cacheStats.hitRate + cacheStats.missRate) > 0.8 
                     ? 'perf-indicator__value--good' 
@@ -152,13 +152,13 @@ export function AssetMonitor({
                 </span>
               </div>
               <div className="perf-indicator">
-                <span className="perf-indicator__label">Memory Pressure:</span>
+                <span className="perf-indicator__label">Bellek Baskısı:</span>
                 <span className={`perf-indicator__value ${
                   cacheStats.totalMemoryUsage < 100 * 1024 * 1024 
                     ? 'perf-indicator__value--good' 
                     : 'perf-indicator__value--warning'
                 }`}>
-                  {cacheStats.totalMemoryUsage < 100 * 1024 * 1024 ? 'Low' : 'High'}
+                  {cacheStats.totalMemoryUsage < 100 * 1024 * 1024 ? 'Düşük' : 'Yüksek'}
                 </span>
               </div>
             </div>
@@ -166,18 +166,18 @@ export function AssetMonitor({
 
           {/* Quick Actions */}
           <div className="asset-monitor__section">
-            <h4>Actions</h4>
+            <h4>İşlemler</h4>
             <div className="asset-monitor__actions">
               <button 
                 className="action-button action-button--danger"
                 onClick={() => {
-                  if (window.confirm('Are you sure you want to clear the entire cache?')) {
+                  if (window.confirm('Tüm önbelleği temizlemek istediğinize emin misiniz?')) {
                     // This would call clearCache from useAssetManager
                     console.log('Clear cache clicked')
                   }
                 }}
               >
-                Clear Cache
+                Önbelleği Temizle
               </button>
               <button 
                 className="action-button action-button--warning"
@@ -186,7 +186,7 @@ export function AssetMonitor({
                   console.log('Optimize cache clicked')
                 }}
               >
-                Optimize Cache
+                Önbelleği Optimize Et
               </button>
               <button 
                 className="action-button action-button--info"
@@ -200,7 +200,7 @@ export function AssetMonitor({
                   console.log('Cache stats:', data)
                 }}
               >
-                Export Stats
+                İstatistikleri Dışa Aktar
               </button>
             </div>
           </div>

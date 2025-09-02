@@ -2,7 +2,7 @@ import React from 'react';
 import Picture from '../Picture/Picture';
 import Display from '../Display/Display';
 import Wolf from './Wolf';
-import Globe from './Globe';
+
 
 const Art = () => {
   
@@ -83,8 +83,7 @@ const Art = () => {
           position={[0, 0, 8]}
           rotation={[0, 0, 0]}
         />
-        {/* Dünya Hologramı - Kurtun üstünde, tam ortada */}
-        <Globe />
+
     </>
 
     )

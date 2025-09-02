@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { usePerformance } from '../../hooks/usePerformance';
 import './PerformanceMonitor.css';
 
@@ -6,8 +6,21 @@ interface PerformanceMonitorProps {
   visible?: boolean;
 }
 
-const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({ visible = false }) => {
+const PerformanceMonitor: React.FC<PerformanceMonitorProps> = memo(({ visible = false }) => {
   const { metrics, config, level, isOptimizing } = usePerformance();
+
+  // Memoize expensive calculations
+  const formattedMetrics = useMemo(() => ({
+    memory: metrics.memoryUsage.toFixed(1),
+    renderTime: metrics.renderTime.toFixed(2),
+    triangles: metrics.triangleCount.toLocaleString()
+  }), [metrics.memoryUsage, metrics.renderTime, metrics.triangleCount]);
+
+  const performanceStatus = useMemo(() => ({
+    fpsWarning: metrics.fps < 30,
+    memoryWarning: metrics.memoryUsage > 400,
+    renderWarning: metrics.renderTime > 16
+  }), [metrics.fps, metrics.memoryUsage, metrics.renderTime]);
 
   if (!visible) return null;
 
@@ -25,14 +38,14 @@ const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({ visible = false
           <h4>Metrics</h4>
           <div className="metric">
             <span className="metric__label">FPS:</span>
-            <span className={`metric__value ${metrics.fps < 30 ? 'metric__value--warning' : ''}`}>
+            <span className={`metric__value ${performanceStatus.fpsWarning ? 'metric__value--warning' : ''}`}>
               {metrics.fps}
             </span>
           </div>
           <div className="metric">
             <span className="metric__label">Memory:</span>
-            <span className="metric__value">
-              {metrics.memoryUsage.toFixed(1)} MB
+            <span className={`metric__value ${performanceStatus.memoryWarning ? 'metric__value--warning' : ''}`}>
+              {formattedMetrics.memory} MB
             </span>
           </div>
           <div className="metric">
@@ -41,11 +54,13 @@ const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({ visible = false
           </div>
           <div className="metric">
             <span className="metric__label">Triangles:</span>
-            <span className="metric__value">{metrics.triangleCount.toLocaleString()}</span>
+            <span className="metric__value">{formattedMetrics.triangles}</span>
           </div>
           <div className="metric">
             <span className="metric__label">Render Time:</span>
-            <span className="metric__value">{metrics.renderTime.toFixed(2)}ms</span>
+            <span className={`metric__value ${performanceStatus.renderWarning ? 'metric__value--warning' : ''}`}>
+              {formattedMetrics.renderTime}ms
+            </span>
           </div>
         </div>
 
@@ -77,6 +92,11 @@ const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({ visible = false
       </div>
     </div>
   );
-};
+}, (prevProps, nextProps) => {
+  // Only re-render if visibility changes
+  return prevProps.visible === nextProps.visible;
+});
+
+PerformanceMonitor.displayName = 'PerformanceMonitor';
 
 export default PerformanceMonitor;

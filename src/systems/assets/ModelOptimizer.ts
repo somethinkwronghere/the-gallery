@@ -12,11 +12,7 @@ import {
   MeshPhongMaterial,
   MeshStandardMaterial
 } from 'three'
-// Note: SimplifyModifier might not be available in all Three.js versions
-// import { SimplifyModifier } from 'three/examples/jsm/modifiers/SimplifyModifier'
-
 export class ModelOptimizer {
-  // private simplifyModifier = new SimplifyModifier()
 
   /**
    * Optimize a 3D model for better performance
